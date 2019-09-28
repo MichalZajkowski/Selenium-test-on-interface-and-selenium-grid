@@ -66,14 +66,6 @@ public class BaseTest {
         }
     }
 
-    public static WebDriver getWebDriver() {
-        if (webDriver == null) {
-            throw new IllegalStateException("WebDriver Instance was null! Please create instance of WebDriver using setWebDriver!");
-        }
-        return webDriver;
-    }
-
-
     private void setChromeDriver() {
         Configuration.setProperty("webdriver.chrome.driver", configuration.getPropertyFromFile("chromeDriver"));
         webDriver = new ChromeDriver();
