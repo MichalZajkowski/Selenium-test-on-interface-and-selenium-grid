@@ -3,7 +3,7 @@ package page.common;
 import framework.helpers.SeleniumHelper;
 import org.openqa.selenium.WebDriver;
 
-public abstract class BasePage<T extends BasePage<T>> {
+public abstract class BasePage<T> {
 
     private WebDriver webDriver;
     protected SeleniumHelper seleniumHelper;
