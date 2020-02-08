@@ -13,9 +13,10 @@ class SearchBookResultElementProvider {
         PageFactory.initElements(webDriver, this);
     }
 
-    @FindBy(xpath = "//*[@id=\"right-big-col\"]//ul//img")
+    @FindBy(xpath = "//*[@id='right-big-col']//ul//img")
     private List<WebElement> bookList;
 
+    //example how selector should not look like
     @FindBy(css = "#right-big-col > div.book-list-container.multi-line.padding-top.padding-top-search > div > ul > li> div > h3 > a")
     private List<WebElement> bookDescriptionList;
 
