@@ -3,12 +3,12 @@ package page.pages.searchpage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import page.common.BasePage;
 
-class ToolSearchElementProvider {
+class ToolSearchElementProvider extends BasePage {
 
-    ToolSearchElementProvider(WebDriver webDriver) {
-        PageFactory.initElements(webDriver, this);
+    public ToolSearchElementProvider(WebDriver webDriver) {
+        super(webDriver);
     }
 
     @FindBy(id = "inputSearch")
@@ -24,9 +24,11 @@ class ToolSearchElementProvider {
         return searchInput;
     }
 
-    WebElement getSearchButton(){
+    WebElement getSearchButton() {
         return searchButton;
     }
 
-    WebElement getBasket(){ return basket; }
+    WebElement getBasket() {
+        return basket;
+    }
 }

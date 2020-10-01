@@ -1,19 +1,13 @@
 package page.common;
 
-import framework.helpers.SeleniumHelper;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
-public abstract class BasePage<T> {
+public abstract class BasePage {
 
-    private WebDriver webDriver;
-    protected SeleniumHelper seleniumHelper;
+    protected WebDriver webDriver;
 
     public BasePage(WebDriver webDriver) {
-        this.webDriver = webDriver;
-        seleniumHelper = new SeleniumHelper(webDriver);
+        PageFactory.initElements(webDriver, this);
     }
-
-    protected abstract T getThis();
-
-    public abstract boolean isLoaded();
 }

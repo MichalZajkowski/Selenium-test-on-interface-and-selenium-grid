@@ -19,24 +19,24 @@ import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
 
-    private static Configuration configuration = Configuration.getInstance();
-    private static Logger logger = LoggerFactory.getLogger(BaseTest.class);
-    private static SeleniumGrid testOnGrid = new SeleniumGrid();
+    private final Configuration configuration = new Configuration().getInstance();
+    private static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
+    private static final SeleniumGrid testOnGrid = new SeleniumGrid();
     protected static WebDriver webDriver;
     private static final String DRIVER = "driver";
-    private static final String REMOTE_HOST_URL = configuration.getPropertyFromFile("remoteHostURL");
-    private static boolean doesGridActive = Boolean.parseBoolean(configuration.getPropertyFromFile("localhostGridEnabled"));
+    private final String REMOTE_HOST_URL = configuration.getPropertyFromFile("remoteHostURL");
+    private final boolean doesGridActive = Boolean.parseBoolean(configuration.getPropertyFromFile("localhostGridEnabled"));
 
     protected BaseTest() {
         try {
             setDriver();
         } catch (InvalidParameterException e) {
             logger.warn("Missing 'driver' property. Set driver to default");
-            Configuration.setProperty(DRIVER, "firefox");
-            Configuration.setProperty("webdriver.gecko.driver", configuration.getPropertyFromFile("geckoDriver"));
+            configuration.setProperty(DRIVER, "firefox");
+            configuration.setProperty("webdriver.gecko.driver", configuration.getPropertyFromFile("geckoDriver"));
             webDriver = new FirefoxDriver();
         } finally {
-            if (!"remote".equals(Configuration.getProperty(DRIVER))) {
+            if (!"remote".equals(configuration.getProperty(DRIVER))) {
                 Objects.requireNonNull(webDriver).manage().window().maximize();
             }
         }
@@ -46,33 +46,31 @@ public class BaseTest {
         webDriver.navigate().to(url);
     }
 
+    protected void tearDownGridIfNeeded() {
+        if (doesGridActive) {
+            testOnGrid.stopNode();
+            testOnGrid.stopHub();
+            logger.info("Grid closed!");
+        }
+    }
+
     private void setDriver() throws InvalidParameterException {
-        switch (Configuration.getProperty(DRIVER)) {
-            case "chrome":
-                setChromeDriver();
-                break;
-            case "firefox":
-                setFirefoxDriver();
-                break;
-            case "remoteChrome":
-                setRemoteChromeDriver();
-                break;
-            case "remoteFirefox":
-                setRemoteFirefoxDriver();
-                break;
-            case "remoteOnLocalhost":
-                setRemoteOnLocalhost();
-                break;
+        switch (configuration.getProperty(DRIVER)) {
+            case "chrome" -> setChromeDriver();
+            case "firefox" -> setFirefoxDriver();
+            case "remoteChrome" -> setRemoteChromeDriver();
+            case "remoteFirefox" -> setRemoteFirefoxDriver();
+            case "remoteOnLocalhost" -> setRemoteOnLocalhost();
         }
     }
 
     private void setChromeDriver() {
-        Configuration.setProperty("webdriver.chrome.driver", configuration.getPropertyFromFile("chromeDriver"));
+        configuration.setProperty("webdriver.chrome.driver", configuration.getPropertyFromFile("chromeDriver"));
         webDriver = new ChromeDriver();
     }
 
     private void setFirefoxDriver() {
-        Configuration.setProperty("webdriver.gecko.driver", configuration.getPropertyFromFile("geckoDriver"));
+        configuration.setProperty("webdriver.gecko.driver", configuration.getPropertyFromFile("geckoDriver"));
         webDriver = new FirefoxDriver();
     }
 
@@ -97,7 +95,7 @@ public class BaseTest {
     }
 
     private void setRemoteOnLocalhost() {
-        Configuration.setProperty("webdriver.chrome.driver", configuration.getPropertyFromFile("chromeDriver"));
+        configuration.setProperty("webdriver.chrome.driver", configuration.getPropertyFromFile("chromeDriver"));
         setUpGrid();
         try {
             RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL(REMOTE_HOST_URL), DesiredCapabilities.chrome());
@@ -118,14 +116,6 @@ public class BaseTest {
                 logger.error("Timeout corrupted! ", e);
             }
             logger.info("Grid set up and ready for test processing!");
-        }
-    }
-
-    protected static void tearDownGridIfNeeded() {
-        if (doesGridActive) {
-            testOnGrid.stopNode();
-            testOnGrid.stopHub();
-            logger.info("Grid closed!");
         }
     }
 }

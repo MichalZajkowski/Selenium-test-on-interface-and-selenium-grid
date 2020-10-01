@@ -6,13 +6,13 @@ import framework.dataprovider.SearchItemProvider;
 import framework.dataprovider.UrlProvider;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance;
-import page.pages.addtobasket.AddToBasketPage;
+import page.pages.addtobasket.AddToBasketController;
 import page.pages.searchbookresultpage.SearchBookResult;
-import page.pages.searchbookresultpage.SearchBookResultPage;
+import page.pages.searchbookresultpage.SearchBookResultController;
 import page.pages.searchpage.ToolSearch;
-import page.pages.searchpage.ToolSearchPage;
+import page.pages.searchpage.ToolSearchController;
 import page.pages.topmenupage.TopMenu;
-import page.pages.topmenupage.TopMenuPage;
+import page.pages.topmenupage.TopMenuController;
 
 import static framework.screenshot.ScreenShotMaker.takeErrorScreenShot;
 import static org.assertj.core.api.AssertionsForClassTypes.fail;
@@ -25,14 +25,15 @@ class SearchHelionSmokeTest extends BaseTest {
     private TopMenu topMenu;
     private ToolSearch toolSearch;
     private SearchBookResult searchBookResult;
-    private AddToBasketPage addToBasketPage;
+    private AddToBasketController addToBasketController;
     private boolean isCorrectStep = true;
 
-    SearchHelionSmokeTest() {
-        topMenu = new TopMenuPage(webDriver);
-        toolSearch = new ToolSearchPage(webDriver);
-        searchBookResult = new SearchBookResultPage(webDriver);
-        addToBasketPage = new AddToBasketPage(webDriver);
+    @BeforeAll
+    void beforeAll(){
+        topMenu = new TopMenuController(webDriver);
+        toolSearch = new ToolSearchController(webDriver);
+        searchBookResult = new SearchBookResultController(webDriver);
+        addToBasketController = new AddToBasketController(webDriver);
     }
 
     @BeforeEach
@@ -48,7 +49,7 @@ class SearchHelionSmokeTest extends BaseTest {
     }
 
     @AfterAll
-    static void treadDown() {
+    void treadDown() {
         webDriver.close();
         webDriver.quit();
         tearDownGridIfNeeded();
@@ -95,7 +96,7 @@ class SearchHelionSmokeTest extends BaseTest {
     @Order(4)
     void addBookToBasket() {
         try {
-            addToBasketPage.addToBasket();
+            addToBasketController.addToBasket();
         } catch (Exception e) {
             takeErrorScreenShot(webDriver);
             isCorrectStep = false;

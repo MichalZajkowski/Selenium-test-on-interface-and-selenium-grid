@@ -12,17 +12,17 @@ import java.util.Properties;
 public class Configuration {
 
     private static final String FRAMEWORK_PROPERTIES = "framework.properties";
-    private static Logger logger = LoggerFactory.getLogger(Configuration.class);
-    private static Configuration instance = null;
+    private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
+    private Configuration instance = null;
 
-    public static Configuration getInstance() {
+    public Configuration getInstance() {
         if (instance == null) {
             instance = new Configuration();
         }
         return instance;
     }
 
-    public static String getProperty(String key) {
+    public String getProperty(String key) {
         final String property = System.getProperty(key);
         if (property == null) {
             throw new InvalidParameterException(MessageFormat.format("Missing value for key '{0}'!", key));
@@ -30,7 +30,7 @@ public class Configuration {
         return property;
     }
 
-    public static void setProperty(String key, String value) {
+    public void setProperty(String key, String value) {
         System.setProperty(key, value);
     }
 

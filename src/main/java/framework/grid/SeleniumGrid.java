@@ -12,7 +12,7 @@ import org.openqa.grid.web.Hub;
 
 public class SeleniumGrid {
 
-    private static Logger logger = LoggerFactory.getLogger(SeleniumGrid.class);
+    private static final Logger logger = LoggerFactory.getLogger(SeleniumGrid.class);
     private static Hub hub;
     private static GridNodeServer node;
     private static SelfRegisteringRemote remote;

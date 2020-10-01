@@ -3,14 +3,14 @@ package page.pages.searchbookresultpage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import page.common.BasePage;
 
 import java.util.List;
 
-class SearchBookResultElementProvider {
+class SearchBookResultElementProvider extends BasePage {
 
     SearchBookResultElementProvider(WebDriver webDriver) {
-        PageFactory.initElements(webDriver, this);
+        super(webDriver);
     }
 
     @FindBy(xpath = "//*[@id='right-big-col']//ul//img")
@@ -20,11 +20,11 @@ class SearchBookResultElementProvider {
     @FindBy(css = "#right-big-col > div.book-list-container.multi-line.padding-top.padding-top-search > div > ul > li> div > h3 > a")
     private List<WebElement> bookDescriptionList;
 
-    List<WebElement> getBookList() {
+    public List<WebElement> getBookList() {
         return bookList;
     }
 
-    List<WebElement> getBookDescriptionList() {
+    public List<WebElement> getBookDescriptionList() {
         return bookDescriptionList;
     }
 }
