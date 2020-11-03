@@ -15,7 +15,7 @@ import page.pages.topmenupage.TopMenu;
 import page.pages.topmenupage.TopMenuController;
 
 import static framework.screenshot.ScreenShotMaker.takeErrorScreenShot;
-import static org.assertj.core.api.AssertionsForClassTypes.fail;
+import static junit.framework.TestCase.fail;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
